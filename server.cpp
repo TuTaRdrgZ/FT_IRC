@@ -1,9 +1,10 @@
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
+#include <iostream>
 #include <netinet/in.h>
 #include <sys/socket.h>
 #include <unistd.h>
-
-#include <cstring>
-#include <iostream>
 
 #define PORT 8080
 
@@ -40,7 +41,8 @@ int main() {
   }
 
   // Accept a connection
-  new_socket = accept(server_fd, (struct sockaddr *)&address, (socklen_t *)&addrlen);
+  new_socket =
+      accept(server_fd, (struct sockaddr *)&address, (socklen_t *)&addrlen);
   if (new_socket < 0) {
     perror("accept");
     exit(EXIT_FAILURE);
@@ -48,17 +50,17 @@ int main() {
 
   // Read data
   while (true) {
-	read(new_socket, buffer, 1024);
-	buffer[strlen(buffer)] = '\0';
-	if (strcmp(buffer, "exit") == 0) {
-	  break;
-	}
-	std::cout << "Message from client: " << buffer << std::endl;
-	int i = 0;
-	while (buffer[i]) {
-	  buffer[i] = '\0';
-	  i++;
-	}
+    read(new_socket, buffer, 1024);
+    buffer[strlen(buffer)] = '\0';
+    if (strcmp(buffer, "exit") == 0) {
+      break;
+    }
+    std::cout << "Message from client: " << buffer << std::endl;
+    int i = 0;
+    while (buffer[i]) {
+      buffer[i] = '\0';
+      i++;
+    }
   }
 
   // Close socket

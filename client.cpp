@@ -5,6 +5,7 @@
 
 #include <cstring>
 #include <iostream>
+typedef int sock_fd;
 
 #define PORT 8080
 
@@ -12,13 +13,6 @@ int main() {
   int sock = 0;
   struct sockaddr_in serv_addr;
 
-  // Create socket
-  // @params
-  // AF_INET: indicates the socket will use the IPv4 address family
-  // SOCK_STREAM: indicates the socket will use the TCP protocol
-  // (stream-oriented protocol) 0: indicates the protocol (if you set it to 0,
-  // the OS will choose the appropriate protocol)
-  // @return integer value that will store the socket file descriptor
   sock = socket(AF_INET, SOCK_STREAM, 0);
   if (sock < 0) {
     std::cerr << "Socket creation error" << std::endl;
