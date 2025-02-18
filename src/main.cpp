@@ -1,17 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Server.cpp                                         :+:      :+:    :+:   */
+/*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ncastell <ncastell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/18 13:52:36 by ncastell          #+#    #+#             */
-/*   Updated: 2025/02/18 20:28:26 by ncastell         ###   ########.fr       */
+/*   Created: 2025/02/18 12:10:50 by droied            #+#    #+#             */
+/*   Updated: 2025/02/18 23:28:54 by ncastell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "IRC.hpp"
-#include "Exception.hpp"
 
 int main(int ac, char **av)
 {
@@ -19,7 +18,8 @@ int main(int ac, char **av)
 	{
 		if (ac != 3)
 			throw IRCException("Expected: ./IRC <port> <password>");
-		IRC(std::atoi(av[1]), av[2]);
+		IRC myServer = IRC(std::atoi(av[1]), av[2]);
+		std::cout << "Port: " << myServer.getPort() << std::endl;
 	}
 	catch(const std::exception& e)
 	{

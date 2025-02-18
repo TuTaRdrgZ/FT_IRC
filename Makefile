@@ -1,37 +1,81 @@
-NAME		= IRC
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: ncastell <ncastell@student.42.fr>          +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2025/02/18 12:08:43 by droied            #+#    #+#              #
+#    Updated: 2025/02/18 23:10:23 by ncastell         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
 
-SRC			= Exception.cpp Server.cpp IRC.cpp
+# ╔══════════════════════════════════════════════════════════════════════════╗ #  
+#                               FT_IRC                                         #
+# ╚══════════════════════════════════════════════════════════════════════════╝ #  
 
-OBJ			= $(SRC:.cpp=.o)
-DEP			= $(SRC:.cpp=.d)
+NAME        = ircserv
+CC 			= c++
+CFLAGS 		= -Wall -Wextra -Werror -std=c++98 -I $(INCLUDE_PATH)
 
-CPP			= c++ -std=c++98
+# ╔══════════════════════════════════════════════════════════════════════════╗ #  
+#                               SOURCES                                        #
+# ╚══════════════════════════════════════════════════════════════════════════╝ #  
 
-CPPFLAGS	= -Wall -Wextra -Werror -MMD
+SOURCES_PATH    = ./src
+INCLUDE_PATH	= ./inc
+OBJECTS_PATH    = ./obj
 
-RM			= rm -rf
+HEADER = $(INCLUDE_PATH)/IRC.hpp $(INCLUDE_PATH)/Exception.hpp 
+SOURCES = main.cpp Exception.cpp IRC.cpp
 
-######## COLORS ########
-GREEN	= \033[1;92m
-RED		= \033[1;91m
-NC		= \033[0m
+# ╔══════════════════════════════════════════════════════════════════════════╗ #  
+#                               OBJECTS                                        #
+# ╚══════════════════════════════════════════════════════════════════════════╝ #  
 
-all:    $(NAME)
+OBJECTS = $(addprefix $(OBJECTS_PATH)/, ${SOURCES:.cpp=.o})
+DEPS = $(addprefix $(OBJECTS_PATH)/, ${SOURCES:.cpp=.d})
 
-$(NAME): $(OBJ) Makefile
-		${CPP} ${CPPFLAGS} ${OBJ} -o ${NAME}
-		@echo "$(GREEN)\n✨ COMPILED ✨\n$(NC)"
+# ╔══════════════════════════════════════════════════════════════════════════╗ #  
+#                               COLORS                                         #
+# ╚══════════════════════════════════════════════════════════════════════════╝ #  
 
-%.o: %.cpp
-		@$(CPP) $(CPPFLAGS) -c $< -o $@
+RED=\033[0;31m
+CYAN=\033[0;36m
+GREEN=\033[0;32m
+YELLOW=\033[0;33m
+WHITE=\033[0;97m
+BLUE=\033[0;34m
+NC=\033[0m # No color
+
+# ╔══════════════════════════════════════════════════════════════════════════╗ #  
+#                               MANDATORY RULES                                #
+# ╚══════════════════════════════════════════════════════════════════════════╝ #  
+
+all: $(NAME)
+
+-include $(DEPS)
+$(NAME): $(OBJECTS)
+	@printf "$(CYAN)$@ Compiled$(NC)\n"
+	@$(CC) $(CFLAGS) $^ -o $(NAME)
+
+$(OBJECTS_PATH)/%.o: $(SOURCES_PATH)/%.cpp Makefile $(HEADER)
+	@printf "$(CYAN)Compiling $@$(NC)\n";
+	@mkdir -p $(dir $@)
+	@$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
-	$(RM) $(OBJ) $(DEP)
-	@echo "$(RED)\nDELETED\n $(NC)"
+	@printf "$(CYAN)Cleaning objects and libraries$(NC)\n";
+	@rm -rf $(OBJECTS_PATH) 
 
-fclean: clean
-		$(RM) $(NAME)
+fclean : clean
+	@printf "$(CYAN)Cleaning objects, libraries and executable$(NC)\n";
+	@rm -rf $(NAME)
 
-re:     fclean all
+re: fclean all
 
+# ╔══════════════════════════════════════════════════════════════════════════╗ #  
+#                               MY RULES                                          #
+# ╚══════════════════════════════════════════════════════════════════════════╝ #   
+	
 .PHONY: all clean fclean re

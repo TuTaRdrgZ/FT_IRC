@@ -6,7 +6,7 @@
 /*   By: ncastell <ncastell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 19:59:02 by ncastell          #+#    #+#             */
-/*   Updated: 2025/02/18 20:04:54 by ncastell         ###   ########.fr       */
+/*   Updated: 2025/02/18 23:18:17 by ncastell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ class IRCException : public std::exception
 
 	public:
 		IRCException(const std::string& msg);
+		virtual ~IRCException() throw() {}
 		virtual const char* what() const throw();
 };
 
