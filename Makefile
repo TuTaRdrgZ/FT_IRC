@@ -3,9 +3,9 @@ SERVER= ircserv
 TEST= test
 
 SERVER_SRC= server.cpp
-CLIENT_SRC= client.cpp
-
 SERVER_OBJ= $(SERVER_SRC:.cpp=.o)
+
+CLIENT_SRC= client.cpp
 CLIENT_OBJ= $(CLIENT_SRC:.cpp=.o)
 
 TEST_SRC= test_ft_irc.cpp
@@ -17,15 +17,15 @@ CFLAGS= -std=c++98 -Wall -Wextra -Werror -g
 %.o: %.cpp
 	$(CC) -c -o $@ $< $(CFLAGS)
 
-all: $(CLIENT) $(SERVER)
+all: $(SERVER)
 
 client: $(CLIENT_OBJ)
 	$(CC) -o $(CLIENT) $(CLIENT_OBJ) $(CFLAGS)
 
-server: $(SERVER_OBJ)
+ircserv: $(SERVER_OBJ)
 	$(CC) -o $(SERVER) $(SERVER_OBJ) $(CFLAGS)
 
-test: server $(TEST_OBJ)
+test: $(SERVER) $(TEST_OBJ)
 	$(CC) $(TEST_OBJ) $(CFLAGS) -o $(TEST)
 	./test
 
